@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+    <meta charset="UTF-8" />
+    <!--<link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600&subset=latin,latin-ext' rel='stylesheet'>-->
+    <link href='https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css' rel='stylesheet'>
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+    <TITLE>url action</TITLE>
+</head>
+
+<body>
+    <div class="container">
+        <br />
+        <div class="panel panel-info panel-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <textarea class="form-control af-url" style="height:100px;"></textarea>
+                </div>
+            </div>
+            <div class="row af-btns">
+                <div class="col-sm-10">
+
+                </div>
+                <div class="col-sm-2">
+                    <a class="btn btn-danger col-sm-6" data-af="clear" style="border:solid #900 1px;">CLEAR</a>
+                    <a class="btn btn-danger col-sm-6" data-af="close" style="border:solid #900 1px;">CLOSE</a>
+                </div>
+            </div>
+        </div>
+        <div class="row hidden">
+            <div class="col-sm-12">
+                <a class="btn btn-danger" onclick="$(this).parent().parent().addClass('hidden')">CLOSE</a>
+            </div>
+            <iframe height="500" style="border:none;" class="col-sm-12 ac-ff" name="ff"></iframe>
+        </div>
+    </div>
+    <script>
+        $.btnset = ['bijia', 'shipin', "sp", 'ciba', 'qrcode', 'proxy'];
+
+        $.pageinit = function () {
+            var url = document.location.href;
+            url = url.split("?u=");
+            url = url.length == 1 ? url[0] : url[1];
+
+            url = decodeURIComponent(url);
+            $('.af-url').val(url);
+
+            setTimeout(function () {
+                var ss = "";
+
+                var url = $('.af-url').val();
+                for (var i = 0; i < $.btnset.length; i++) {
+                    ss += eval("$.as" + $.btnset[i] + "(url)");
+                }
+
+                $(".col-sm-10", ".af-btns").html(ss);
+
+                $("a.btn", ".af-btns").click(function () {
+                    var af = $(this).data('af');
+                    var url = $('.af-url').val();
+                    eval("$.af" + af + "(url)");
+                });
+            });
+
+        };
+
+
+        $.afclear = function () {
+            $('.af-url').val('').focus();
+        }
+        $.afclose = function () {
+            window.opener = window;
+            window.close();
+        }
+
+        //
+        $.assp = function (u) {
+            var s = "<a class='btn' data-af='sp'>&nbsp;</a>";
+            return s;
+        };
+        $.afsp = function (u) {
+        }
+
+        //
+        $.asts = function (u) {
+            var s = "<a class='btn btn-info' data-af='ts'>ts_name</a>";
+            return s;
+        };
+        $.afts = function (u) {
+            alert(u);
+        }
+
+        //
+        $.asciba = function (u) {
+            var s = "<a class='btn btn-info' data-af='ciba'>金山词霸翻译</a>";
+            return s;
+        };
+        $.afciba = function (u) {
+            $(".ac-ff").parent().removeClass('hidden');
+            $(".ac-ff").attr('src', 'http://www.iciba.com/');
+            setTimeout(function () {
+                console.warn('http://www.iciba.com/' + u);
+                $(".ac-ff").attr('src', 'http://www.iciba.com/' + u);
+            }, 1000);
+        }
+
+        //
+        $.asproxy = function (u) {
+            var s = "<a class='btn btn-info' data-af='proxy'>代理</a>";
+            return s;
+        };
+        $.afproxy = function (u) {
+            // alert(u);
+            alert('none');
+
+        }
+
+        //
+        $.asbijia = function (u) {
+            //京东、天猫、淘宝、亚马逊、苏宁、当当、1号店、国美、考拉、网易严选
+            var ts = ['jd', 'tmall', 'taobao', 'amazon', 'z.cn', 'suning', 'dangdang', 'yhd', 'gome', 'kaola', 'you.163'];
+            for (var i = 0; i < ts.length; i++) {
+                if (u.indexOf(ts[i]) >= 0) return "<a class='btn btn-info' data-af='bijia'>比价</a>";
+            }
+            return "";
+        };
+        $.afbijia = function (u) {
+            var ud = encodeURIComponent(u);
+
+            document.location = "http://tool.manmanbuy.com/historyLowest.aspx?url=" + ud;
+        }
+
+
+        //
+        $.asshipin = function (u) {
+            var ts = ['pornhub', 'youtube', 'weibo', 'youku', 'tudou', 'v.qq', 'iqiyi', 'bilibili'];
+            for (var i = 0; i < ts.length; i++) {
+                if (u.indexOf(ts[i]) >= 0)
+                    return "<a class='btn btn-info' data-af='shipin'>解析下载</a>" + "<a class='btn btn-info' data-af='shipind'>解析播放</a>";
+            }
+            return "";
+        };
+        $.afshipin = function (u) {
+            var ud = encodeURIComponent(u);
+
+            $(".ac-ff").parent().removeClass('hidden');
+            $(".ac-ff").attr('src', "https://weibomiaopai.com/?url=" + ud);
+        }
+        $.afshipind = function (u) {
+            var ud = encodeURIComponent(u);
+
+            $(".ac-ff").parent().removeClass('hidden');
+            $(".ac-ff").attr('src', "https://www.parsevideo.com/#" + ud);
+        }
+
+        //
+        $.asqrcode = function (u) {
+            var s = "<a class='btn btn-info' data-af='qrcode'>二维码</a>";
+            return s;
+        };
+        $.afqrcode = function (u) {
+            var ud = encodeURIComponent(u);
+
+            $(".ac-ff").parent().removeClass('hidden');
+            $(".ac-ff").attr('src', "qrcode.html?u=" + ud);
+        }
+
+
+        $($.pageinit);
+    </script>
+</body>
+
+</html>

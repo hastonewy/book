@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type='text/javascript' src='http://libs.useso.com/js/jquery/1.11.1/jquery.min.js'></script>
+        <script type="text/javascript">
+            window.g=null;
+        
+            var varq, varf;
+            
+            if (!Array.prototype.shuffle) {
+                Array.prototype.shuffle = function () {
+                    for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x)
+                        ;
+                    return this;
+                };
+            }
+            // author: never-online  
+            // web: never-online.net  
+            var q = {
+                rq: function (val) {
+                    var uri = window.location.search;
+                    var re = new RegExp("" + val + "\=([^\&\?]*)", "ig");
+                    return ((uri.match(re)) ? (uri.match(re)[0].substr(val.length + 1)) : null);
+                },
+                rqa: function () {
+                    var uri = window.location.search;
+                    var re = /\w*\=([^\&\?]*)/ig;
+                    var retval = [];
+                    while ((arr = re.exec(uri)) != null)
+                        retval.push(arr[0]);
+                    return retval;
+                },
+                setrq: function (val1, val2) {
+                    var a = this.rqa();
+                    var retval = "";
+                    var seted = false;
+                    var re = new RegExp("^" + val1 + "\=([^\&\?]*)$", "ig");
+                    for (var i = 0; i < a.length; i++) {
+                        if (re.test(a[i])) {
+                            seted = true;
+                            a[i] = val1 + "=" + val2;
+                        }
+                    }
+                    retval = a.join("&");
+                    return "?" + retval + (seted ? "" : (retval ? "&" : "") + val1 + "=" + val2);
+                }
+            };
+
+            window.urlArr=new Array();
+            var tim = 1;
+            setInterval("tim++", 10);
+            var b = 1;
+            var autourl = new Array();
+            var autotag = new Array();
+            var autoccc = new Array();
+            var ts = new Array();
+
+            autourl[0] = "https://www.souguge.net/";
+            ts[0] = 0;
+
+            function start(c) {
+                var i1 = 0;
+                var i2 = 10;
+                for (var i = i1; i <= i2; i++) {
+                    ts[i] = tim;
+                    
+                    $('<div class="url"><span class="name">' + autourl[i] + '：</span><span class="txt" id="txt' + i + '">[check]</span><\/div>').appendTo("body");
+                }
+            }
+            function auto(b) {
+                t = (tim - ts[b]) / 100;
+                if (t > 3)
+                {
+                    document.getElementById("txt" + b).innerHTML = '<font color=red>Timeout<\/font>';
+                }
+                else
+                {
+                    var cur = autourl[b];
+                    varq = q.rq("q");
+                    
+                    if (varq !== null && varq.substring(0, 1) === "-") {
+                        varq = varq.replace("-", "");
+                    }
+                    if(autoccc[b]===undefined)
+                    {
+                        cur += "search?q=" + varq;
+                    }
+                    else
+                    {
+                        cur=autoccc[b].replace("$",varq);
+                    }
+                    window.urlArr.push(cur)
+                    document.getElementById("txt" + b).innerHTML = 'speed:' + t + 's. &nbsp; <a href="' + autourl[b] + '" class="test" rel="noreferrer" target="_blank">[go]<\/a>';
+                    
+                }
+                //document.getElementById("txt"+b).innerHTML = 'speed:' + t + 's. &nbsp; <a href="javascript:void(0);" class="test" rel="noreferrer" onclick="javascript:cli('+b+');"> CURRENT <\/a>';   
+            }
+            function run() {
+                for (var i = 0; i < autourl.length; i++) {
+                    $('<img class="hidden" src="' + autourl[i] + '\/g.gif" onerror="auto(' + i + ')" \/>').appendTo("body");
+                }
+            }
+            function cli(b) {
+                u = autourl[b];
+                window.open(u);
+                //op = window.frames.frame1;
+                //op.window.open(u);
+            }
+            // setTimeout(function(){
+            //     window.urlArr.shuffle();
+            //     //console.warn(window.urlArr);
+            //     document.location=window.urlArr[0];
+            // },1000);
+            
+            
+            function checkGS(){
+                if(tim>=500)
+                {
+                    window.g=0;
+                }
+                if(window.g!==null)
+                {
+                    if(window.g===1)
+                    {
+                        varq = q.rq("q");
+                        
+                        if (varq !== null && varq.substring(0, 1) === "-") {
+                            varq = varq.replace("-", "");
+                        }
+                        document.location = 'https://www.google.com.hk/?gws_rd=ssl#q=' + varq;
+                    }
+                    else
+                    {
+                        start();
+                        run();
+                        setTimeout(function(){
+                            document.location.href=window.urlArr.shuffle()[0];
+                        },1500);
+                    }
+                    
+                    return;
+                }
+                
+                setTimeout(function(){checkGS();},100);
+            }
+            
+        </script>
+        
+        
+    </head>
+    <body>
+        <h1>SEARCH</h1><p>check search connection status and redirect</p>
+        <script>
+            $("<img id=\"gimg\" width=\"20\" height=\"10\" src=\"https://www.google.com/images/srpr/logo11w.png?t="+Math.random()+"\" onload=\"javascript:void(window.g=1);\"  onerror=\"javascript:void(window.g=0);\" />").appendTo("body");
+            checkGS();
+        </script>
+    </body>
+</html>
