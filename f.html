@@ -43,19 +43,19 @@
                 setTimeout(function () {
 
                     var url = $(".ac-url").val();
-
                     var obj = $("<div>");
 
                     var pTop = 45;
                     var pLeft = $(window).width() - (window.fwidth + 20);
 
-                    obj.css({
-                        "position": "absolute",
-                        "width": window.fwidth,
-                        "height": window.fheight,
-                        "top": pTop,
-                        "left": pLeft
-                    })
+                    obj
+                        .css({
+                            "position": "absolute",
+                            "width": window.fwidth,
+                            "height": window.fheight,
+                            "top": pTop,
+                            "left": pLeft
+                        })
                         .append(
                             $('<button>').css("width", 25).text('X').click(function () {
                                 $("iframe", $(this).parent())
@@ -65,7 +65,10 @@
                             })
                         )
                         .append(
-                            $('<a>').css("color", "#fff").text(url)
+                            $('<a>').css("color", "#fff").text(url).dblclick(function () {
+                                var u = prompt("url", $(this).text());
+                                $(this).parent().find("iframe").attr('src', u);
+                            })
                         )
                         .append(
                             $('<iframe>').css({
