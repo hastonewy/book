@@ -31,6 +31,13 @@
         }
     </style>
     <script>
+        //force http
+        var cu = window.location.protocol;
+
+        if (cu == 'https:')
+            window.location =
+                document.location.href.toString().replace('https:', 'http:') + "?t" + (new Date()).valueOf() + "=1";
+
         $(function () {
             $(".ac-ma").click(function () {
                 setTimeout(function () {
@@ -40,9 +47,15 @@
                     var obj = $("<div>");
 
                     var pTop = 45;
-                    var pLeft = $(window).width() - 500;
+                    var pLeft = $(window).width() - (window.fwidth + 20);
 
-                    obj.css({"position": "absolute", "width": 480, "height": 660, "top": pTop, "left": pLeft})
+                    obj.css({
+                        "position": "absolute",
+                        "width": window.fwidth,
+                        "height": window.fheight,
+                        "top": pTop,
+                        "left": pLeft
+                    })
                         .append(
                             $('<button>').css("width", 25).text('X').click(function () {
                                 $("iframe", $(this).parent())
@@ -55,7 +68,10 @@
                             $('<a>').css("color", "#fff").text(url)
                         )
                         .append(
-                            $('<iframe>').css({"width": 480, "height": 640}).attr("frameborder", 0).attr('src', url)
+                            $('<iframe>').css({
+                                "width": window.fwidth,
+                                "height": window.fheight
+                            }).attr("frameborder", 0).attr('src', url)
                         )
                     ;
 
@@ -103,13 +119,20 @@
             <td>
                 <input type="text" class="ac-url" style="width: 100%" value="https://"/>
             </td>
-            <td style="width: 56px;">
+            <td style="width: 85px;">
                 &nbsp;
                 <button type="button" class="ac-ma" style="width: 20px"
-                        onclick="$('.ac-url').val('https://hastone.gitee.io/book/')">H
+                        onclick="window.fwidth=800;window.fheight=600;$('.ac-url').val('https://hastone.gitee.io/book/')">
+                    H
                 </button>
                 &nbsp;
-                <button type="button" class="ac-ma" style="width: 20px">+</button>
+                <button type="button" class="ac-ma" style="width: 20px"
+                        onclick="window.fwidth=480;window.fheight=640;">+
+                </button>
+                &nbsp;
+                <button type="button" class="ac-ma" style="width: 20px"
+                        onclick="window.fwidth=800;window.fheight=600;">++
+                </button>
             </td>
         </tr>
     </table>
