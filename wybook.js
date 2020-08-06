@@ -17,7 +17,7 @@ $(document).ready(function () {
     var sst = "<style>" + "#cd form.sl{clear:both;width:auto;height:auto;border:none;margin:0;float:none;padding:0;}\n" + "#cd button{width:100px;}\n" + "#cd input{width:200px;}\n" + ".item{background-color:#eee;}\n" + ".item span{font-size:16px;font-weight:bold;}\n" + ".clr{clear:right;}\n" + "</style>";
     $("body").append($(sst));
     
-    sst = '<div id="formbackground" style="position:absolute; z-index:-1;"><img src="10.jpg" height="100%" width="100%"/></div>';
+    sst = '<div id="formbackground" style="position:absolute; z-index:-1;"><img src="/book/bg1.jpg" height="100%" width="100%"/></div>';
     $("body").append($(sst));
 
 
