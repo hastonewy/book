@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mobile Frame</title>
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-size: 12px;
+            line-height: 100%;
+        }
+
+        body {
+            background-color: #333;
+        }
+
+        input {
+            border: none;
+            border-bottom: solid 1px #000;
+            background-color: #ccc;
+            height: 15px;
+        }
+
+        button {
+            border: none;
+            border-bottom: solid 1px #000;
+            background-color: #ccc;
+            height: 16px;
+        }
+    </style>
+    <script>
+        //force http
+        var cu = window.location.protocol;
+
+        if (cu == 'https:')
+            window.location =
+                document.location.href.toString().replace('https:', 'http:') + "?t" + (new Date()).valueOf() + "=1";
+
+        window.fnResize=function() {
+        	window.vwidth=$(window).width();
+        	window.vheight=$(window).height()-20;
+        	
+			if (window.fcount==0)return;
+			$(".ac-content > td").each(function(){
+				var cwidth=window.vwidth/window.fcount;
+				$(this).width(cwidth).height(window.vheight);
+			});
+
+        };
+
+        $(function () {
+        	window.fcount=0;
+        	window.fnResize();
+        	$(window).resize(window.fnResize);
+
+            $(".ac-ma").click(function () {
+                setTimeout(function () {
+
+                	window.fcount+=1;
+
+                    var url = $(".ac-url").val();
+                    var obj = $("<td>");
+
+                    // obj.html('tab'+window.fcount);
+                    obj.append($("<iframe>").attr('frameborder',0).attr('src',url).css({"width":"100%","height":"100%"}));
+
+                    $(".ac-content").append(obj);
+                    window.fnResize();
+
+                }, 100);
+            });
+        });
+    </script>
+</head>
+<body style="overflow: hidden;">
+<div style="height: 20px;width: 100%;">
+    <table style="width: 100%" cellpadding="0" cellspacing="1" border="0">
+        <tr>
+            <td>
+                <input type="text" class="ac-url" style="width: 100%" value="https://"/>
+            </td>
+            <td style="width: 55px;">
+                &nbsp;
+                <button type="button" class="ac-ma" style="width: 20px"
+                        onclick="window.fwidth=800;window.fheight=600;$('.ac-url').val('https://hastone.gitee.io/book/')">
+                    H
+                </button>
+                &nbsp;
+                <button type="button" class="ac-ma" style="width: 20px"
+                        onclick="window.fwidth=480;window.fheight=640;">+
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+<table class="ac-contenttable" cellpadding="0" cellspacing="0" border="0">
+	<tr class="ac-content">
+	</tr>
+</table>
+</body>
+</html>
