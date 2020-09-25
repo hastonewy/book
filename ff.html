@@ -50,8 +50,10 @@
                 if(cwidth>ccw && window.fcount<=window.vdcount)cwidth=ccw;
 				$(this).width(cwidth).height(window.vheight);
                     
-                if($(this).attr("data-src")!='')$(this).attr("src",$(this).attr("data-src"))&&$(this).attr("data-src","");
-                
+                if($(this).attr("data-src")!='')
+                {
+                    $(this).attr("src",$(this).attr("data-src"));
+                    $(this).attr("data-src","");}
 			});
 
         };
