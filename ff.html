@@ -41,11 +41,17 @@
         window.fnResize=function() {
         	window.vwidth=$(window).width();
         	window.vheight=$(window).height()-20;
+            window.vdcount=parseInt($(".ac-defcount").val());
         	
 			if (window.fcount==0)return;
 			$(".ac-content > td").each(function(){
 				var cwidth=window.vwidth/window.fcount;
+                var ccw=window.vwidth/window.vdcount;
+                if(cwidth>ccw && window.fcount<=window.vdcount)cwidth=ccw;
 				$(this).width(cwidth).height(window.vheight);
+                    
+                if($(this).attr("data-src")!='')$(this).attr("src",$(this).attr("data-src"))&&$(this).attr("data-src","");
+                
 			});
 
         };
@@ -64,7 +70,7 @@
                     var obj = $("<td>");
 
                     // obj.html('tab'+window.fcount);
-                    obj.append($("<iframe>").attr('frameborder',0).attr('src',url).css({"width":"100%","height":"100%"}));
+                    obj.append($("<iframe>").attr('frameborder',0).attr('data-src',url).css({"width":"100%","height":"100%"}));
 
                     $(".ac-content").append(obj);
                     window.fnResize();
@@ -81,7 +87,8 @@
             <td>
                 <input type="text" class="ac-url" style="width: 100%" value="https://"/>
             </td>
-            <td style="width: 85px;">
+            <td style="width: 125px;">
+                <input type="text" class="ac-defcount" style="width: 45px" value="4"/>
                 &nbsp;
                 <button type="button" class="ac-ma" style="width: 20px"
                         onclick="window.fwidth=800;window.fheight=600;$('.ac-url').val('https://hastone.gitee.io/book/')">
