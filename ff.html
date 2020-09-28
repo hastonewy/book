@@ -45,7 +45,7 @@
 			if (window.fcount==0)return;
 			$(".ac-content > td").each(function(){
 				var cwidth=window.vwidth/window.fcount;
-				$(this).width(cwidth).height(window.vheight);
+				$(this).width(cwidth).height(window.vheight-25);
 			});
 
         };
@@ -74,7 +74,7 @@
                     // obj.html('tab'+window.fcount);
                     obj
                     .append($("<iframe>").attr('frameborder',0).attr('src',url).css({"width":"100%","height":"100%"}))
-                    .append($("<button>").text("x").attr("type","button").css({"position":"relative","left":0,"top":0,"background-color":"#000","color":"#fff"}).click(window.btnClose))
+                    .append($("<button>").text("x").attr("type","button").css({"width":"20","height":"20","background-color":"#000","color":"#fff"}).click(window.btnClose))
                     ;
                     
 
