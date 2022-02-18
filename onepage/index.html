@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>r</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-4">
+			<h3>
+				&nbsp;
+			</h3>
+		</div>
+		<div class="col-md-4">
+			<form role="form">
+				<div class="form-group">					 
+					<label for="">
+						<br/><br/>
+					</label>
+				</div>
+				<div class="form-group">					 
+					<label for="url">
+						URL
+					</label>
+					<input type="text" class="form-control" id="url" value="http://" />
+				</div>
+				<button type="button" class="btn btn-primary" id="btngo">
+					GO
+				</button>
+				<button type="button" class="btn btn-primary" id="btnwin">
+					OPEN
+				</button>
+			</form>
+		</div>
+		<div class="col-md-4">
+			<h3>
+				&nbsp;
+			</h3>
+		</div>
+	</div>
+</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+	<script>
+		$("#btnwin").click(function(){
+			url=$("#url").val()
+			if(url=="http://")url='index.html'
+			 window.open(url, '_blank', 'height=980, width=640, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no') 	
+		});
+		$("#btngo").click(function(){
+			
+			var ud=$("#url").val();
+			ud=
+				ud.replace("http://","")
+				.replace("https://","")
+				.replace("www.","");
+
+			document.title=ud;
+
+			document.location.href= $("#url").val();
+		});
+		if(document.location.search!=""){
+			url=atob(document.location.search.substring(1));
+			$("#url").val(url);
+			$("#btnwin").get(0).click();
+//			window.open(url, '_blank', 'height=980, width=640, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+		}
+	</script>
+  </body>
+</html>
